@@ -1,11 +1,25 @@
+<script lang="ts">
+    import {page} from "$app/stores";
+    import moment from "moment";
+</script>
+
 <div class="todo-container">
+    {#if $page.data?.user}
+        <h1>Todo list for {$page.data?.user.username}</h1>
+    {/if}
     <div class="todo-list">
-        <div class="todo">
-            <div class="todo-header">
-                <h3>Todo title for specific {'title'}</h3>
-                <small>Created at {'created_at ago'} by @{'username'}</small>
-            </div>
-        </div>
+        {#if $page.data?.todos?.object_list}
+            {#each $page.data?.todos?.object_list as todo}
+                <div class="todo">
+                    <div class="todo-header">
+                        <h3>{todo.title}</h3>
+                        <small>Created at {moment(todo.created_at).fromNow()} by @{todo.user} and
+                        will be completed at {moment(todo.will_be_completed_at).fromNow()}.
+                        </small>
+                    </div>
+                </div>
+            {/each}
+        {/if}
     </div>
 </div>
 

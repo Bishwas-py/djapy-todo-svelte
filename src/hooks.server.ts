@@ -20,18 +20,37 @@ export const handleFetch: HandleFetch = async ({request, fetch}) => {
             redirect: request.redirect
         };
 
-        if (request.method === 'POST' || request.method === 'PUT') {
+        const isBodyAllowed = request.method === 'POST'
+            || request.method === 'PUT'
+            || request.method === 'PATCH';
+
+        if (isBodyAllowed) {
             options = {
                 ...options,
                 body: await request.text()
             };
         }
+
         return fetch(requestUrl, options);
     }
     return fetch(request);
 };
 
 export const handle = (async ({event, resolve}) => {
+    event.locals.sessionID = event.cookies.get("sessionID") as string;
+    event.locals.preparedCookie = `sessionid=${event.locals.sessionID};`;
+
+    const userResponse = await event.fetch(`$api/get-user/`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Cookie": event.locals.preparedCookie
+        }
+    });
+    const user = await userResponse.json();
+    if (user.id) {
+        event.locals.user = user;
+    }
     return resolve(event);
 }) satisfies Handle;
 

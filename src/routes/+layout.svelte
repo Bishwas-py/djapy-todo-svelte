@@ -5,14 +5,29 @@
 
 <div>
     <nav>
-        <a class="logo" href="/">Djapy 📃</a>
+        <a class="logo" href="/">
+            {#if $page.data.user}
+                @{$page.data.user.username}
+            {:else}
+                Djapy 📃
+            {/if}
+        </a>
         <ul>
             <li>
                 <a href="/">Todos</a>
             </li>
-            <li class="action" class:active={$page.url.pathname === '/create'}>
+            <li class="action primary" class:active={$page.url.pathname === '/create'}>
                 <a href="/create">Create Todo</a>
             </li>
+            {#if $page.data.user}
+                <li class="action secondary">
+                    <a href="/auth/logout">Logout</a>
+                </li>
+            {:else}
+                <li class="action secondary">
+                    <a href="/auth/login">Login</a>
+                </li>
+            {/if}
         </ul>
     </nav>
 
@@ -65,13 +80,25 @@
     }
 
     .action {
-        background-color: #333;
         padding: 0.5rem 1rem;
         border-radius: 5rem;
     }
 
-    .action a {
+    .action.primary{
+        background-color: #333;
+    }
+
+    .action.secondary{
+        outline: 1px solid #333;
+        text-decoration: none;
+    }
+
+    .action.primary a {
         color: #fff;
+    }
+
+    .action.secondary a {
+        color: #333;
     }
 
     .action a:hover {
