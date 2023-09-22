@@ -1,38 +1,52 @@
-# create-svelte
+## Djapy-based Todo using Svelte
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+[Djapy](https://github.com/Bishwas-py/djapy) is the Django extremist friend, that can be used to
+develop rest api in a shot, with a very few lines of code,
+extreme speed and control.
 
-## Creating a project
+This is a simple Todo application, using Svelte as frontend
+and Django's Djapy as [backend](https://github.com/Bishwas-py/djapy-todo).
 
-If you're seeing this, you've probably already done this step. Congrats!
+### How to run
 
 ```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
+# Clone the repository
+git clone git@github.com:Bishwas-py/djapy-todo-svelte.git   # frontend
+git clone git@github.com:Bishwas-py/djapy-todo.git          # backend
 ```
 
-## Developing
+```bash
+# Install dependencies
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+# frontend
+cd djapy-todo-svelte
+npm install
+
+# backend
+cd djapy-todo
+pip install -r requirements.txt
+```
+
+Now, create an `.env` in the root of the frontend directory
+and add the following:
 
 ```bash
+# .env
+SECRET_BASE_API=http://127.0.0.1:8000   # backend url
+```
+
+Now, run the application:
+```bash
+# Run the application
+
+# frontend
 npm run dev
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+# backend
+python manage.py runserver
 ```
 
-## Building
+### Screenshots
 
-To create a production version of your app:
+![image](https://github.com/Bishwas-py/djapy-todo-svelte/assets/42182303/b0c4cb5a-5e78-434f-a6b7-96064cddfbd9)
 
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
