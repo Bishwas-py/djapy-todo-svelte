@@ -25,6 +25,8 @@ npm install
 # backend
 cd djapy-todo
 pip install -r requirements.txt
+
+pip3 install git+https://github.com/Bishwas-py/djapy.git@main  # make sure to use the latest djapy for this project
 ```
 
 Now, create an `.env` in the root of the frontend directory
