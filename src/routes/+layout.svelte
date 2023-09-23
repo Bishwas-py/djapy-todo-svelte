@@ -3,6 +3,13 @@
     import {page} from "$app/stores";
 </script>
 
+<svelte:head>
+    {#if $page.data.user.username}
+        <title>Todo list by @{$page.data.user.username}</title>
+    {:else}
+        <title>Todo list</title>
+    {/if}
+</svelte:head>
 <div>
     <nav>
         <a class="logo" href="/">
@@ -84,11 +91,11 @@
         border-radius: 5rem;
     }
 
-    .action.primary{
+    .action.primary {
         background-color: #333;
     }
 
-    .action.secondary{
+    .action.secondary {
         outline: 1px solid #333;
         text-decoration: none;
     }
