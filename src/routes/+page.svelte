@@ -1,17 +1,20 @@
 <script lang="ts">
     import {enhance} from "$app/forms";
+    import {flip} from 'svelte/animate';
     import {page} from "$app/stores";
     import moment from "moment";
+    import {quintOut} from "svelte/easing";
 </script>
 
 <div class="todo-container">
     {#if $page.data?.user}
         <h1>Your todo list "{$page.data?.user.username}"</h1>
     {/if}
-    <div class="todo-list">
-        {#if $page.data?.todos?.object_list}
-            {#each $page.data.todos?.object_list as todo}
+    {#if $page.data?.todos?.object_list}
+        <div class="todo-list">
+            {#each $page.data.todos?.object_list as todo (todo.id)}
                 <form class="todo" class:completed={todo.completed_at} action="" method="post"
+                      animate:flip={{ delay: 0, duration: 850, easing: quintOut }}
                       use:enhance>
                     <h3>{todo.title}</h3>
                     <div class="todo-wrap">
@@ -19,9 +22,11 @@
                         <small>
                             {todo.completed_at ? '✅' : '⌛'}
                             {#if todo.completed_at && moment(todo.completed_at).isBefore(todo.will_be_completed_at)}
-                                Completed <strong>{moment(todo.will_be_completed_at).from(todo.completed_at, true)} early</strong>.
+                                Completed <strong>{moment(todo.will_be_completed_at).from(todo.completed_at, true)}
+                                early</strong>.
                             {:else if todo.completed_at}
-                                Completed <strong>{moment(todo.completed_at).from(todo.will_be_completed_at, true)} late</strong>.
+                                Completed <strong>{moment(todo.completed_at).from(todo.will_be_completed_at, true)}
+                                late</strong>.
                             {:else}
                                 Due <strong>{moment(todo.will_be_completed_at).fromNow()}</strong>.
                             {/if}
@@ -37,8 +42,8 @@
                     </div>
                 </form>
             {/each}
-        {/if}
-    </div>
+        </div>
+    {/if}
 </div>
 
 <style lang="postcss">
