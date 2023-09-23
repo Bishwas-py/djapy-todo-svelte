@@ -49,7 +49,6 @@ python manage.py runserver
 ```
 
 ### Screenshots
+![image](https://github.com/Bishwas-py/djapy-todo-svelte/assets/42182303/15df5feb-a2a2-4248-b707-8191654a0f4a)
 
-![image](https://github.com/Bishwas-py/djapy-todo-svelte/assets/42182303/2f603178-c2d2-4d05-8e74-d37c79e7fbb0)
-
-
+[Check out video](https://i.imgur.com/sLaMQtJ.mp4)
