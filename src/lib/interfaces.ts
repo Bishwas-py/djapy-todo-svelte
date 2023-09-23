@@ -20,8 +20,14 @@ export interface User {
 export interface Todo {
     id: number,
     title: string,
+    will_be_completed_at: string
     completed_at: string,
     created_at: string,
-    updated_at: string,
-    will_be_completed_at: string
+    updated_at: string
+}
+
+export interface TodoResponse {
+    object_list: Todo[],
+    previous_page_number: number,
+    next_page_number: number,
 }

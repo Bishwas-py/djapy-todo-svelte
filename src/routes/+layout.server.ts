@@ -1,5 +1,5 @@
 import type { LayoutServerLoad } from './$types';
-import type {Todo} from "$lib/interfaces";
+import type {TodoResponse} from "$lib/interfaces";
 
 export const load: LayoutServerLoad = async ({ locals, fetch }) => {
     const todosResponse = await fetch(`$api/todos/`, {
@@ -10,7 +10,7 @@ export const load: LayoutServerLoad = async ({ locals, fetch }) => {
         }
     })
 
-    const todos: Todo[] = await todosResponse.json();
+    const todos: TodoResponse = await todosResponse.json();
     return {
         user: locals.user,
         todos

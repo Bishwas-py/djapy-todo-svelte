@@ -59,3 +59,14 @@
     border-radius: 0.5rem;
     border: 1px solid #f0cfcf;
 }
+
+.success {
+    color: green;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    background: #eaf9ec;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #d9f0cf;
+}

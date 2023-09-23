@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { page } from "$app/stores";
+    import {enhance} from "$app/forms";
+    import {page} from "$app/stores";
     import moment from "moment";
 </script>
 
@@ -9,23 +10,32 @@
     {/if}
     <div class="todo-list">
         {#if $page.data?.todos?.object_list}
-            {#each $page.data?.todos?.object_list as todo}
-                <div class="todo" class:completed={todo.completed_at}>
+            {#each $page.data.todos?.object_list as todo}
+                <form class="todo" class:completed={todo.completed_at} action="" method="post"
+                      use:enhance>
                     <h3>{todo.title}</h3>
                     <div class="todo-wrap">
+                        <input type="hidden" name="todoID" value={todo.id}/>
                         <small>
-                            {todo.completed_at ? '✅' : ''} Created at
-                            <strong title={todo.created_at}>
-                                {moment(todo.created_at).fromNow()}
-                            </strong>
-                            by @{todo.user} and will be completed
-                        <strong title={todo.will_be_completed_at}>
-                            {moment(todo.will_be_completed_at).fromNow()}</strong>.
+                            {todo.completed_at ? '✅' : '⌛'}
+                            {#if todo.completed_at && moment(todo.completed_at).isBefore(todo.will_be_completed_at)}
+                                Completed <strong>{moment(todo.will_be_completed_at).from(todo.completed_at, true)} early</strong>.
+                            {:else if todo.completed_at}
+                                Completed <strong>{moment(todo.completed_at).from(todo.will_be_completed_at, true)} late</strong>.
+                            {:else}
+                                Due <strong>{moment(todo.will_be_completed_at).fromNow()}</strong>.
+                            {/if}
                         </small>
-                        <a href="/{todo.id}/edit">Edit</a>
+
+                        <div class="todo-action">
+                            <a href="/{todo.id}/edit">Edit</a>
+                            <button formaction="?/markAs">
+                                {todo.completed_at ? 'Mark as Uncompleted' : 'Mark as Completed'}
+                            </button>
+                            <input name="markAs" value="{todo.completed_at ? 'uncompleted': 'completed'}" hidden>
+                        </div>
                     </div>
-                    
-                </div>
+                </form>
             {/each}
         {/if}
     </div>
@@ -70,23 +80,61 @@
         color: rgb(44, 48, 51);
         margin: 0;
     }
+
     .todo small {
         font-size: 0.8rem;
         color: #061624;
+        max-width: 70%;
     }
-    .todo a {
+
+    .todo-action a, .todo-action button {
         color: #042847;
         text-decoration: none;
-        margin-left: auto;
         font-size: 0.8rem;
+        font-weight: bold;
+        padding: 0;
+        border: none;
+        background-color: transparent;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    .todo-action a {
+    }
+
+    .todo-action a:hover, .todo-action button:hover {
+        text-decoration: underline;
+        color: #1d5788;
     }
 
     .todo a:hover {
         text-decoration: underline;
     }
 
+    .todo-action {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        border-bottom: 1px solid #e0eaee;
+    }
+
     .todo-wrap {
         display: flex;
         justify-content: space-between;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            gap: 1rem;
+        }
+    }
+
+
+    .todo-action {
+        display: flex;
+        gap: 1rem;
+
+        @media (max-width: 768px) {
+            justify-content: space-between;
+        }
     }
 </style>

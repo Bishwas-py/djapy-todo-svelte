@@ -7,7 +7,7 @@ export const actions = {
         const data = await request.formData();
         const title = data.get("title") as string;
         const will_be_completed_at = data.get("will_be_completed_at") as string;
-        console.log(will_be_completed_at)
+
         const response = await fetch(`$api/todos/`, {
             method: "POST",
             headers: {
